@@ -25,6 +25,8 @@ namespace WinFormsApp1.ModelViews
 
         #region Events
         public event Action HumansListChanged;
+        public event Action<string, string> HumanNameChanged;
+
         #endregion Events
 
         #region Constructors
@@ -44,7 +46,6 @@ namespace WinFormsApp1.ModelViews
             Peoples.Add(human);
             HumansListChanged?.Invoke();
         }
-        
         public List<string> GetHumansNames()
         {
             var result = new List<string>();
@@ -53,6 +54,17 @@ namespace WinFormsApp1.ModelViews
                 result.Add(human.Name);
             }
             return result;
+        }
+        public void RenameHuman(string oldName, string newName)
+        {
+            foreach (var human in Peoples)
+            {
+                if(human.Name == oldName)
+                {
+                    human.Name = newName;
+                }
+            }
+            HumanNameChanged?.Invoke(oldName, newName);
         }
         #endregion Public
 
